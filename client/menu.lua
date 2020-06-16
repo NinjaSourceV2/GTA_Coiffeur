@@ -10,7 +10,7 @@ AddEventHandler("GTA:CoupePayer", function()
 		PlayAmbientSpeech2(myPeds["entity"], "GENERIC_THANKS", "SPEECH_PARAMS_FORCE_SHOUTED") --> Sert a faire parler le ped plus l'animer.
         exports.nCoreGTA:Ninja_Core_StartAnim(myPeds["entity"], "anim@mp_player_intupperthumbs_up", "enter")
 	end
-	OpenMenu("couleurs") --> Ouvre le menu couleur pour proposé la couleur de cheveux
+	CloseCreator()
 end)
 
 
