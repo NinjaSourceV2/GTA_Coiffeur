@@ -2,7 +2,7 @@
 
 
 --> Version de la Resource : 
-local LatestVersion = ''; CurrentVersion = '1.1'
+local LatestVersion = ''; CurrentVersion = '1.2'
 PerformHttpRequest('https://raw.githubusercontent.com/NinjaSourceV2/GTA_Coiffeur/master/VERSION', function(Error, NewestVersion, Header)
     LatestVersion = NewestVersion
     if CurrentVersion ~= NewestVersion then
