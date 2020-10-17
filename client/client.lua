@@ -125,7 +125,6 @@ end)
 RegisterNetEvent("GTA_Coiffeur:LoadOldCoiffure")
 AddEventHandler("GTA_Coiffeur:LoadOldCoiffure", function()
     TriggerServerEvent("GTA_Coiffeur:LoadCoupeCheveux")
-    ClearPedTasks(GetPlayerPed(-1))
 end)
 
 --> Blips Coiffeur : 

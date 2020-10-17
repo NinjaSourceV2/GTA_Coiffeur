@@ -58,8 +58,6 @@ Citizen.CreateThread(function()
                         end,
                         onSelected = function(Index, Item)
                             TriggerServerEvent("GTA_Coiffeur:NouvelCoupe", tCheveuxValue[iCHeveux][1], tCheveuxValue[iCHeveux][2])
-                            RageUI.CloseAll(true)
-                            EndCoiffure()
                         end
                     })
 
@@ -70,8 +68,6 @@ Citizen.CreateThread(function()
                         end,
                         onSelected = function(Index, Item)
                             TriggerServerEvent("GTA_Coiffeur:NouvelCouleur", tCouleurValue[IcCouleur][1], tCouleurValue[IcCouleur][2])
-                            RageUI.CloseAll(true)
-                            EndCoiffure()
                         end
                     })
                 end
