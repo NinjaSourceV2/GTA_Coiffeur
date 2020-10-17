@@ -1,16 +1,22 @@
-fx_version 'bodacious'
+fx_version 'cerulean'
 game 'gta5'
 
-files {
-    'json/**/*'
+server_scripts {
+    'server/main.lua'
 }
 
-dependencies {'ghmattimysql'}
-server_scripts {
-    'server/server.lua'
-}
 client_scripts {
-    'config/config.lua',
-    'client/client.lua',
+    "src/RMenu.lua",
+    "src/menu/RageUI.lua",
+    "src/menu/Menu.lua",
+    "src/menu/MenuController.lua",
+    "src/components/*.lua",
+    "src/menu/elements/*.lua",
+    "src/menu/items/*.lua",
+    "src/menu/panels/*.lua",
+    "src/menu/windows/*.lua",
+    
+    "config/config.lua",
+    "client/client.lua",
     'client/menu.lua'
 }
