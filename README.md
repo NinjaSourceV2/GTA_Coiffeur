@@ -1,4 +1,4 @@
-# GTA_Superette
+# GTA_Coiffeur
 Simple coiffeur.
 
 ## Screen :
