@@ -2,7 +2,7 @@
 
 
 --> Version de la Resource : 
-local LatestVersion = ''; CurrentVersion = '1.3'
+local LatestVersion = ''; CurrentVersion = '1.4'
 PerformHttpRequest('https://raw.githubusercontent.com/NinjaSourceV2/GTA_Coiffeur/master/VERSION', function(Error, NewestVersion, Header)
     LatestVersion = NewestVersion
     if CurrentVersion ~= NewestVersion then
@@ -20,7 +20,7 @@ AddEventHandler("GTA_Coiffeur:NouvelCoupe", function(drawID, prix)
         if (data.argent_propre >= prix) then 
             TriggerEvent('GTA:RetirerArgentPropre', source, tonumber(prix))
 			TriggerClientEvent('nMenuNotif:showNotification', source, "Paiement accepté !")
-            exports.ghmattimysql:execute(
+            MySQL.Async.execute(
                 "UPDATE gta_joueurs_humain SET cheveux=@drawID WHERE license=@license", {
                 ['@license'] = player,
                 ['@drawID'] = drawID
@@ -41,7 +41,7 @@ AddEventHandler("GTA_Coiffeur:NouvelCouleur", function(drawID, prix)
         if (data.argent_propre >= prix) then 
             TriggerEvent('GTA:RetirerArgentPropre', source, tonumber(prix))
 			TriggerClientEvent('nMenuNotif:showNotification', source, "Paiement accepté !")
-            exports.ghmattimysql:execute(
+            MySQL.Async.execute(
                 "UPDATE gta_joueurs_humain SET couleurCheveux=@drawID WHERE license=@license", {
                 ['@license'] = player,
                 ['@drawID'] = drawID
@@ -57,7 +57,7 @@ RegisterServerEvent("GTA_Coiffeur:LoadCoupeCheveux")
 AddEventHandler("GTA_Coiffeur:LoadCoupeCheveux",function()
 	local source = source
 	local license = GetPlayerIdentifiers(source)[1]
-	exports.ghmattimysql:execute("SELECT * FROM gta_joueurs_humain WHERE license = @license", { ['@license'] = license}, function(res2)
+	MySQL.Async.fetchAll("SELECT * FROM gta_joueurs_humain WHERE license = @license", { ['@license'] = license}, function(res2)
 		TriggerClientEvent("GTA_Coiffeur:UpdateCheveux", source, res2[1].cheveux, res2[1].couleurCheveux)
 	end)
 end)
