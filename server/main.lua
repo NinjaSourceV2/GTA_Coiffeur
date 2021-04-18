@@ -28,14 +28,14 @@ AddEventHandler("GTA_Coiffeur:NouvelCoupe", function(drawID, prix)
     TriggerEvent('GTA:GetInfoJoueurs', source, function(data)
         if (data.argent_propre >= prix) then 
             TriggerEvent('GTA:RetirerArgentPropre', source, tonumber(prix))
-	        TriggerClientEvent("GTA_NUI_ShowNotif_client",  -1, "Paiement accepté !", "success", "fa fa-user fa-2x")
+            TriggerClientEvent("GTA_NUI_ShowNotif_client", source, "Paiement accepté !", "success", "fa fa-check fa-2x", "row", "success")
             MySQL.Async.execute(
                 "UPDATE gta_joueurs_humain SET cheveux=@drawID WHERE license=@license", {
                 ['@license'] = player,
                 ['@drawID'] = drawID
             })
         else
-            TriggerClientEvent("GTA_NUI_ShowNotif_client", source, "Paiement refusé !", "warning", "fa fa-exclamation-circle fa-2x")
+            TriggerClientEvent("GTA_NUI_ShowNotif_client", source, "Paiement refusé !", "warning", "fa fa-exclamation-circle fa-2x", "row", "warning")
         end
         TriggerClientEvent("GTA_Coiffeur:LoadOldCoiffure", source)
     end)
@@ -49,14 +49,14 @@ AddEventHandler("GTA_Coiffeur:NouvelCouleur", function(drawID, prix)
     TriggerEvent('GTA:GetInfoJoueurs', source, function(data)
         if (data.argent_propre >= prix) then 
             TriggerEvent('GTA:RetirerArgentPropre', source, tonumber(prix))
-            TriggerClientEvent("GTA_NUI_ShowNotif_client",  -1, "Paiement accepté !", "success", "fa fa-user fa-2x")
+            TriggerClientEvent("GTA_NUI_ShowNotif_client", source, "Paiement accepté !", "success", "fa fa-check fa-2x","row", "success")
             MySQL.Async.execute(
                 "UPDATE gta_joueurs_humain SET couleurCheveux=@drawID WHERE license=@license", {
                 ['@license'] = player,
                 ['@drawID'] = drawID
             })
         else
-            TriggerClientEvent("GTA_NUI_ShowNotif_client", source, "Paiement refusé !", "warning", "fa fa-exclamation-circle fa-2x")
+            TriggerClientEvent("GTA_NUI_ShowNotif_client", source, "Paiement refusé !", "warning", "fa fa-exclamation-circle fa-2x","row", "warning")
         end
         TriggerClientEvent("GTA_Coiffeur:LoadOldCoiffure", source)
     end)
