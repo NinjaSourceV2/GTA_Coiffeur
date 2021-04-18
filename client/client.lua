@@ -1,15 +1,48 @@
 --||@SuperCoolNinja.||--
 tCheveuxLabel, tCheveuxValue = {}, {}
 tCouleurLabel, tCouleurValue = {}, {}
+local tSex = {}
+local playerSexe = " "
 
+RegisterNetEvent("GTA_Coiffeur:GetSexPlayer")
+AddEventHandler("GTA_Coiffeur:GetSexPlayer", function(sexe)
+	playerSexe = sexe
+    if(playerSexe ~= nil)then 
+        Wait(150)
+
+        getSex()
+        
+        GetLabelCoupeCheveux()
+        GetLabelCouleursCheveux()
+    end
+end)
+
+--> Blips Coiffeur : 
+Citizen.CreateThread(function()
+    for i = 1, #Config.Locations do
+        local blip = Config.Locations[i]["Blip"]
+        blip = AddBlipForCoord(blip["x"], blip["y"], blip["z"])
+
+        SetBlipSprite(blip, 71)
+        SetBlipDisplay(blip, 4)
+        SetBlipScale(blip, 0.9)
+        SetBlipColour(blip, 1)
+        SetBlipAsShortRange(blip, true)
+        BeginTextCommandSetBlipName("STRING")
+        AddTextComponentString("Coiffeur")
+        EndTextCommandSetBlipName(blip)
+    end
+end)
 
 --> Retourne le sex de votre joueurs :
 function getSex()
 	for i = 1, #Config.Locations do
-		if IsPedModel(GetPlayerPed(-1), "mp_m_freemode_01") then
-			return Config.Locations[i]["Homme"]
-		else
-			return Config.Locations[i]["Femme"]
+		if playerSexe == "mp_m_freemode_01" then
+            tSex = Config.Locations[i]["Homme"]
+			return
+        elseif playerSexe == "mp_f_freemode_01" then
+            tSex = Config.Locations[i]["Femme"]
+			return
 		end
 	end
 end
@@ -77,7 +110,7 @@ end
 
 -- Get le nom des Coupe de cheveux : 
 function GetLabelCoupeCheveux()
-	for k, v in pairs(getSexMenu["Coupe"]) do
+	for k, v in pairs(tSex["Coupe"]) do
         table.insert(tCheveuxLabel, k)
         table.insert(tCheveuxValue, v)
 	end
@@ -85,36 +118,17 @@ end
 
 -- Get le nom des Couleurs de cheveux : 
 function GetLabelCouleursCheveux()
-	for k, v in pairs(getSexMenu["Couleur"]) do
+	for k, v in pairs(tSex["Couleur"]) do
         table.insert(tCouleurLabel, k)
         table.insert(tCouleurValue, v)
 	end
 end
 
-local firstspawn = 0
-AddEventHandler('playerSpawned', function(spawn)
-	if firstspawn == 0 then
-        getSexMenu = getSex()
-        Wait(150)
-    
-        GetLabelCoupeCheveux()
-        GetLabelCouleursCheveux()
-        firstspawn = 1
-    end
-end)
 
---> Executer une fois la ressource restart : 
-AddEventHandler('onResourceStart', function(resourceName)
-    if (GetCurrentResourceName() ~= resourceName) then
-        return
-	end
-	
-    getSexMenu = getSex()
-    Wait(150)
-
-    GetLabelCoupeCheveux()
-    GetLabelCouleursCheveux()
-end)
+--> Ici on recupère le "Sex" du character pour recevoir les bonne coupe de cheveux :
+function refreshCoiffures()
+    TriggerServerEvent("GTA_Coiffeur:GetPlayerSexe")
+end
 
 RegisterNetEvent("GTA_Coiffeur:UpdateCheveux")
 AddEventHandler("GTA_Coiffeur:UpdateCheveux",function(cheveux, couleurCheveux)
@@ -127,19 +141,11 @@ AddEventHandler("GTA_Coiffeur:LoadOldCoiffure", function()
     TriggerServerEvent("GTA_Coiffeur:LoadCoupeCheveux")
 end)
 
---> Blips Coiffeur : 
-Citizen.CreateThread(function()
-    for i = 1, #Config.Locations do
-        local blip = Config.Locations[i]["Blip"]
-        blip = AddBlipForCoord(blip["x"], blip["y"], blip["z"])
+--> Executer une fois la ressource restart pour refresh les donnée du character Sex :
+AddEventHandler('onResourceStart', function(resourceName)
+    if (GetCurrentResourceName() ~= resourceName) then
+        return
+	end
 
-        SetBlipSprite(blip, 71)
-        SetBlipDisplay(blip, 4)
-        SetBlipScale(blip, 0.9)
-        SetBlipColour(blip, 1)
-        SetBlipAsShortRange(blip, true)
-        BeginTextCommandSetBlipName("STRING")
-        AddTextComponentString("Coiffeur")
-        EndTextCommandSetBlipName(blip)
-    end
+    refreshCoiffures()
 end)

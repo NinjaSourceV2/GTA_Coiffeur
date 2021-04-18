@@ -16,6 +16,7 @@ Citizen.CreateThread(function()
 			end
 			
 			if (IsControlJustReleased(0, 38) or IsControlJustReleased(0, 214)) then  
+                refreshCoiffures()
                 BeginCoiffure()
                 RageUI.Visible(CoiffeurMenu, not RageUI.Visible(CoiffeurMenu))
 			end

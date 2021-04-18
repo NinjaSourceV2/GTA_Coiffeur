@@ -2,12 +2,21 @@
 
 
 --> Version de la Resource : 
-local LatestVersion = ''; CurrentVersion = '1.4'
+local LatestVersion = ''; CurrentVersion = '1.5'
 PerformHttpRequest('https://raw.githubusercontent.com/NinjaSourceV2/GTA_Coiffeur/master/VERSION', function(Error, NewestVersion, Header)
     LatestVersion = NewestVersion
     if CurrentVersion ~= NewestVersion then
         print("\n\r ^2[GTA_Coiffeur]^1 La version que vous utilisé n'est plus a jours, veuillez télécharger la dernière version. ^3\n\r")
     end
+end)
+
+RegisterServerEvent("GTA_Coiffeur:GetPlayerSexe")
+AddEventHandler("GTA_Coiffeur:GetPlayerSexe", function()
+	local source = source
+	local license = GetPlayerIdentifiers(source)[1]
+
+	local sex = MySQL.Sync.fetchScalar("SELECT sex FROM gta_joueurs_humain WHERE license = @license", {['@license'] = license})
+	TriggerClientEvent("GTA_Coiffeur:GetSexPlayer", source, sex)
 end)
 
 
@@ -19,14 +28,14 @@ AddEventHandler("GTA_Coiffeur:NouvelCoupe", function(drawID, prix)
     TriggerEvent('GTA:GetInfoJoueurs', source, function(data)
         if (data.argent_propre >= prix) then 
             TriggerEvent('GTA:RetirerArgentPropre', source, tonumber(prix))
-			TriggerClientEvent('nMenuNotif:showNotification', source, "Paiement accepté !")
+	        TriggerClientEvent("GTA_NUI_ShowNotif_client",  -1, "Paiement accepté !", "success", "fa fa-user fa-2x")
             MySQL.Async.execute(
                 "UPDATE gta_joueurs_humain SET cheveux=@drawID WHERE license=@license", {
                 ['@license'] = player,
                 ['@drawID'] = drawID
             })
         else
-			TriggerClientEvent('nMenuNotif:showNotification', source, "Paiement refusé !")
+            TriggerClientEvent("GTA_NUI_ShowNotif_client", source, "Paiement refusé !", "warning", "fa fa-exclamation-circle fa-2x")
         end
         TriggerClientEvent("GTA_Coiffeur:LoadOldCoiffure", source)
     end)
@@ -40,14 +49,14 @@ AddEventHandler("GTA_Coiffeur:NouvelCouleur", function(drawID, prix)
     TriggerEvent('GTA:GetInfoJoueurs', source, function(data)
         if (data.argent_propre >= prix) then 
             TriggerEvent('GTA:RetirerArgentPropre', source, tonumber(prix))
-			TriggerClientEvent('nMenuNotif:showNotification', source, "Paiement accepté !")
+            TriggerClientEvent("GTA_NUI_ShowNotif_client",  -1, "Paiement accepté !", "success", "fa fa-user fa-2x")
             MySQL.Async.execute(
                 "UPDATE gta_joueurs_humain SET couleurCheveux=@drawID WHERE license=@license", {
                 ['@license'] = player,
                 ['@drawID'] = drawID
             })
         else
-			TriggerClientEvent('nMenuNotif:showNotification', source, "Paiement refusé !")
+            TriggerClientEvent("GTA_NUI_ShowNotif_client", source, "Paiement refusé !", "warning", "fa fa-exclamation-circle fa-2x")
         end
         TriggerClientEvent("GTA_Coiffeur:LoadOldCoiffure", source)
     end)
