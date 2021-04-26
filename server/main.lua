@@ -2,7 +2,7 @@
 
 
 --> Version de la Resource : 
-local LatestVersion = ''; CurrentVersion = '1.5'
+local LatestVersion = ''; CurrentVersion = '1.6'
 PerformHttpRequest('https://raw.githubusercontent.com/NinjaSourceV2/GTA_Coiffeur/master/VERSION', function(Error, NewestVersion, Header)
     LatestVersion = NewestVersion
     if CurrentVersion ~= NewestVersion then
@@ -25,8 +25,8 @@ AddEventHandler("GTA_Coiffeur:NouvelCoupe", function(drawID, prix)
     prix = prix or 0
     local source = source	
     local player = GetPlayerIdentifiers(source)[1]
-    TriggerEvent('GTA:GetInfoJoueurs', source, function(data)
-        if (data.argent_propre >= prix) then 
+    TriggerEvent('GTA:GetUserQtyItem', source, "Argent-Propre", function(argentPropreQty)
+        if (argentPropreQty >= prix) then 
             TriggerEvent('GTA:RetirerArgentPropre', source, tonumber(prix))
             TriggerClientEvent("GTA_NUI_ShowNotif_client", source, "Paiement accepté !", "success", "fa fa-check fa-2x", "row", "success")
             MySQL.Async.execute(
@@ -46,8 +46,8 @@ AddEventHandler("GTA_Coiffeur:NouvelCouleur", function(drawID, prix)
     prix = prix or 0
     local source = source	
     local player = GetPlayerIdentifiers(source)[1]
-    TriggerEvent('GTA:GetInfoJoueurs', source, function(data)
-        if (data.argent_propre >= prix) then 
+    TriggerEvent('GTA:GetUserQtyItem', source, "Argent-Propre", function(argentPropreQty)
+        if (argentPropreQty >= prix) then 
             TriggerEvent('GTA:RetirerArgentPropre', source, tonumber(prix))
             TriggerClientEvent("GTA_NUI_ShowNotif_client", source, "Paiement accepté !", "success", "fa fa-check fa-2x","row", "success")
             MySQL.Async.execute(
