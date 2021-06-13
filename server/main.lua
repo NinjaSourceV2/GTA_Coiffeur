@@ -49,7 +49,7 @@ AddEventHandler("GTA_Coiffeur:NouvelCouleur", function(drawID, prix)
     local player = GetPlayerIdentifiers(source)[1]
     TriggerEvent('GTA_Inventaire:GetItemQty', source, "cash", function(qtyItem, itemid)
         if (qtyItem >= prix) then 
-            TriggerEvent('GTA:RetirerArgentPropre', source, tonumber(prix))
+            TriggerClientEvent('GTA_Inventaire:RetirerItem', source, "cash", tonumber(prix))
             TriggerClientEvent("GTA_NUI_ShowNotif_client", source, "Paiement accepté !", "success", "fa fa-check fa-2x","row", "success")
             MySQL.Async.execute('UPDATE gta_joueurs_humain SET data_personnage = JSON_REPLACE(data_personnage, "$.couleur_cheveux", '..drawID..') WHERE license = @license;', {['@license'] = player})
         else
