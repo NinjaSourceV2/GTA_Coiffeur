@@ -131,9 +131,9 @@ function refreshCoiffures()
 end
 
 RegisterNetEvent("GTA_Coiffeur:UpdateCheveux")
-AddEventHandler("GTA_Coiffeur:UpdateCheveux",function(cheveux, couleurCheveux)
-	SetPedComponentVariation(GetPlayerPed(-1), 2,cheveux,2,10)
-	SetPedHairColor(GetPlayerPed(-1),couleurCheveux)
+AddEventHandler("GTA_Coiffeur:UpdateCheveux",function(data)
+	SetPedComponentVariation(GetPlayerPed(-1), 2,data["cheveux"],2,10)
+	SetPedHairColor(GetPlayerPed(-1),data["couleur_cheveux"])
 end)
 
 RegisterNetEvent("GTA_Coiffeur:LoadOldCoiffure")
